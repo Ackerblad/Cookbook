@@ -63,8 +63,7 @@
                      TextWrapping="Wrap"
                      Background="FloralWhite"
                      BorderBrush="LightSeaGreen"
-                     BorderThickness="2"
-                     KeyUp="searchBox_KeyUp"/>
+                     BorderThickness="2"/>
             <ListBox x:Name="resultListBox"
                      Height="150"
                      Width="200"
