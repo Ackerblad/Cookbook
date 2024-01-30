@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Cookbook"
         mc:Ignorable="d"
         Title="Cookbook" Height="800" Width="800"
-        Background="LightBlue">
+        WindowStartupLocation="CenterScreen"
+        Background="LightBlue"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -16,6 +18,8 @@
 
         <TextBox Grid.Row="0"
                  x:Name="addRecipeTitle"
+                 GotFocus="addRecipeTitle_GotFocus"
+                 LostFocus="addRecipeTitle_LostFocus"
                  Width="600"
                  Height="40"
                  VerticalAlignment="Top"
@@ -23,12 +27,29 @@
                  Margin="0,10,0,0"
                  Text="Add a title"
                  FontStyle="Italic"
-                 FontWeight="Bold"
+                 FontWeight="DemiBold"
                  FontSize="20"
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center" 
                  Background="FloralWhite"
                  Foreground="LightSlateGray" />
+
+        <Button Grid.Row="0" 
+                x:Name="BackButton" 
+                Click="BackButton_Click"
+                Width="44" 
+                Height="34"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="5,5,0,0"
+                Background="LightBlue"
+                BorderBrush="LightBlue">
+            <Path Data="M10,0 L0,10 L10,20 L10,14 L16,14 L16,6 L10,6 Z" 
+                  Width="34"
+                  Height="24"
+                  Fill="LightSeaGreen"
+                  Stretch="Fill"/>
+        </Button>
 
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Left"
@@ -45,15 +66,17 @@
                      Width="200"
                      Height="193"
                      HorizontalAlignment="Left"
+                     FontSize="13"
+                     FontWeight="DemiBold"
                      Background="FloralWhite"
                      BorderBrush="LightSeaGreen"
                     BorderThickness="2">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Quantity}" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding Quantity}" Margin="0,0,5,0"/>
                             <TextBlock Text="{Binding Unit}" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding Name}" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding Name}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -67,6 +90,8 @@
             
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="quantityBox"
+                         GotFocus="quantityBox_GotFocus"
+                         LostFocus="quantityBox_LostFocus"
                          VerticalAlignment="Top"
                          HorizontalAlignment="Left"
                          Height="30"
@@ -75,8 +100,8 @@
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"
                          FontStyle="Italic"
-                         FontSize="12"
-                         FontWeight="Bold"
+                         FontSize="13"
+                         FontWeight="DemiBold"
                          Foreground="LightSlateGray"  
                          TextWrapping="Wrap"
                          Background="FloralWhite"
@@ -92,13 +117,16 @@
                           VerticalContentAlignment="Center"
                           HorizontalContentAlignment="Center"
                           FontStyle="Italic"
-                          FontSize="12"
-                          FontWeight="Bold"
-                          Foreground="LightSlateGray"  
+                          FontSize="13"
+                          FontWeight="DemiBold"
+                          Foreground="Black"  
                           Background="FloralWhite"
                           BorderBrush="LightSeaGreen"
                           BorderThickness="2"/>
                 <TextBox x:Name="searchIngredientBox"
+                         KeyUp="searchIngredientBox_KeyUp"
+                         GotFocus="searchIngredientBox_GotFocus"
+                         LostFocus="searchIngredientBox_LostFocus"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Margin="10,0,0,0"
@@ -108,8 +136,8 @@
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"
                          FontStyle="Italic"
-                         FontSize="12"
-                         FontWeight="Bold"
+                         FontSize="13"
+                         FontWeight="DemiBold"
                          Foreground="LightSlateGray"
                          TextWrapping="Wrap"
                          Background="FloralWhite"
@@ -117,7 +145,8 @@
                          BorderThickness="2"/>
             </StackPanel>
 
-            <ListBox x:Name="ingredientResultBox"
+            <ListBox x:Name="resultListBox"
+                     MouseDoubleClick="resultListBox_MouseDoubleClick"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
                      Margin="220,5,0,0"
@@ -127,6 +156,7 @@
                      BorderBrush="LightSeaGreen"
                      BorderThickness="2"/>
             <Button x:Name= "AddButton"
+                    Click="AddButton_Click"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Margin="20,-100,0,10"
@@ -155,6 +185,7 @@
                 </Button.Foreground>
             </Button>
             <Button x:Name= "RemoveButton"
+                    Click="RemoveButton_Click"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Margin="20,-50,0,0"
@@ -187,25 +218,100 @@
         <StackPanel Grid.Row="2"
                     HorizontalAlignment="Left"
                     Margin="20,0,0,50">
-            <TextBlock x:Name="directionsTitle"
-                       VerticalAlignment="Top"
+            <TextBox x:Name="instructionInputBox"
+                     Width="400"
+                     Height="30"
+                     Margin="0,0,0,10"
+                     Text="Add instructions to your recipe, step by step"
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     GotFocus="instructionInputBox_GotFocus"
+                     LostFocus="instructionInputBox_LostFocus"
+                     FontStyle="Italic"
+                     FontWeight="DemiBold"
+                     FontSize="13"
+                     Foreground="LightSlateGray"
+                     Background="FloralWhite"
+                     BorderBrush="LightSeaGreen"
+                     BorderThickness="2"/>
+            
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,20">
+                <Button x:Name= "AddInstructionButton" 
+                        Click="AddInstructionButton_Click"
+                        HorizontalAlignment="Center"
+                        FontSize="11"
+                        FontWeight="Bold">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border x:Name="addBorder"
+                                    Height="30"
+                                    Width="60"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    CornerRadius="15"
+                                    Background="LightGreen"
+                                    BorderBrush="LightSeaGreen"
+                                    BorderThickness="2">
+                                <ContentPresenter Content="ADD"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.Foreground>
+                        <SolidColorBrush Color="SeaGreen">
+                        </SolidColorBrush>
+                    </Button.Foreground>
+                </Button>
+                <Button x:Name= "RemoveInstructionButton"
+                        Click="RemoveInstructionButton_Click"
+                        Margin="20,0,0,0"
+                        FontSize="11"
+                        FontWeight="Bold">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Border x:Name="removeBorder"
+                                    Height="30"
+                                    Width="60"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    CornerRadius="15"
+                                    Background="LightPink"
+                                    BorderBrush="LightSeaGreen"
+                                    BorderThickness="2">
+                                <ContentPresenter Content="Remove"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.Foreground>
+                        <SolidColorBrush Color="SeaGreen">
+                        </SolidColorBrush>
+                    </Button.Foreground>
+                </Button>
+            </StackPanel>
+            
+            <TextBlock x:Name="instructionsTitle"      
                        HorizontalAlignment="Center"
-                       Text="DIRECTIONS"
+                       Text="INSTRUCTIONS"
                        FontStyle="Italic"
                        FontWeight="Bold"
                        FontSize="20"
                        Foreground="LightSlateGray"/>
-            <ListBox x:Name="addDirectionsListBox"
-                     Width="500"
-                     Height="400"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Top"
+            <ListBox x:Name="addInstructionsListBox"
+                     Width="400"
+                     Height="300"
+                     FontSize="13"
+                     FontWeight="DemiBold"
                      Background="FloralWhite"
                      BorderBrush="LightSeaGreen"
                      BorderThickness="2">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" 
+                        <TextBlock Text="{Binding InstructionDescription}" 
                                    TextWrapping="Wrap"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -216,16 +322,26 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Margin="0,20,50,0">
+            <Label x:Name="categoryLabel"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Content="Select Category"
+                   FontStyle="Italic"
+                   FontWeight="Bold"
+                   FontSize="16"
+                   Foreground="LightSlateGray"/>
             <ComboBox x:Name="categoryBox"
                       VerticalAlignment="Top"
                        HorizontalAlignment="Left" 
                        Height="30"
                        Width="180"
                        Text="Choose Category"
+                       HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center"
                        FontStyle="Italic"
-                       FontSize="12"
-                       FontWeight="Bold"
-                       Foreground="LightSlateGray"  
+                       FontSize="13"
+                       FontWeight="DemiBold"
+                       Foreground="Black"  
                        Background="FloralWhite"
                        BorderBrush="LightSeaGreen"
                        BorderThickness="2"/>
@@ -236,6 +352,7 @@
                     VerticalAlignment="Bottom"
                     Margin="0,0,50,50">
             <Button x:Name= "SaveRecipeButton"
+                    Click="SaveRecipeButton_Click"
                     FontSize="15"
                     FontWeight="Bold">
                 <Button.Template>

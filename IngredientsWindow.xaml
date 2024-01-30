@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Cookbook" Height="400" Width="700"
         WindowStartupLocation="CenterScreen"
-        Background="LightBlue">
+        Background="LightBlue"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
@@ -69,6 +70,7 @@
                      BorderBrush="LightSeaGreen"
                      BorderThickness="2"/>
             <ListBox x:Name="resultListBox"
+                     MouseDoubleClick="resultListBox_MouseDoubleClick"
                      Visibility="Collapsed"
                      Height="150"
                      Width="200"

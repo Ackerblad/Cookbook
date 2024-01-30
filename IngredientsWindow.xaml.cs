@@ -36,6 +36,8 @@ namespace Cookbook
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
+            resultListBox.ItemsSource = null;
+            searchBox.Text = "";
             MainMenu.Show();
             this.Hide();
         }
@@ -82,33 +84,47 @@ namespace Cookbook
             }  
         }
 
+        private void resultListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            string selectedingredient = resultListBox.SelectedItem.ToString();
+            searchBox.Text = selectedingredient;
+        }
+
         private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
         {
             AddIngredientWindow addIngredientWindow = new AddIngredientWindow();
             addIngredientWindow.Show();
         }
 
+        //Delete ingredient from database
         private void DeleteIngredientButton_Click(object sender, RoutedEventArgs e)
         {
             if (resultListBox.SelectedIndex != -1)
             {
                 string ingredientName = resultListBox.SelectedItem.ToString();
 
-                MessageBoxResult result = MessageBox.Show($"Do you want to delete {resultListBox.SelectedItem}?", "Confirmation", MessageBoxButton.YesNo);
-
-                if (result == MessageBoxResult.Yes)
+                if (databaseConnection.IsIngredientInRecipe(ingredientName))
                 {
-                    databaseConnection.DeleteIngredient(ingredientName);
-                    MessageBox.Show($"{resultListBox.SelectedItem} was successfully deleted from your cookbook!");
-
-                    searchBox.Text = "";
+                    MessageBox.Show($"This ingredient belongs to a recipe and cannot be deleted.");
                 }
+                else
+                {
+                    MessageBoxResult result = MessageBox.Show($"Do you want to delete {resultListBox.SelectedItem}?", "Confirmation", MessageBoxButton.YesNo);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        databaseConnection.DeleteIngredient(ingredientName);
+                        MessageBox.Show($"{ingredientName} was successfully deleted from your cookbook!");
+
+                        resultListBox.ItemsSource = null;
+                        searchBox.Text = "";
+                    }
+                }       
             }
             else
             {
                 MessageBox.Show("Please select an ingredient to delete.", "Information");
             }
-
         }
     }
 }

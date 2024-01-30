@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Cookbook" Height="800" Width="800"
         WindowStartupLocation="CenterScreen"
-        Background="LightBlue">
+        Background="LightBlue"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
@@ -15,14 +16,31 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
-                   x:Name="recipeTitle"
-                   Text="{Binding RecipeTitle}"
+                   x:Name="recipeTitleBlock"
+                   Text="{Binding CurrentRecipe.RecipeTitle}"
                    FontStyle="Italic"
                    FontWeight="Bold"
                    FontSize="40"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Foreground="FloralWhite"/>
+
+        <Button Grid.Row="0" 
+                x:Name="BackButton" 
+                Click="BackButton_Click"
+                Width="44" 
+                Height="34"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="5,5,0,0"
+                Background="LightBlue"
+                BorderBrush="LightBlue">
+            <Path Data="M10,0 L0,10 L10,20 L10,14 L16,14 L16,6 L10,6 Z" 
+                  Width="34"
+                  Height="24"
+                  Fill="LightSeaGreen"
+                  Stretch="Fill"/>
+        </Button>
 
         <StackPanel Grid.Row="1"
                     Orientation="Vertical"
@@ -40,15 +58,17 @@
             <ListBox x:Name="ingredientsListBox"
                      Width="280"
                      Height="630"
+                     FontSize="15"
                      Background="FloralWhite"
                      BorderBrush="LightSeaGreen"
-                     BorderThickness="2">
+                     BorderThickness="2"
+                     ItemsSource="{Binding CurrentRecipe.Ingredients}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Quantity}" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding Unit}" Margin="0,0,10,0"/>
-                            <TextBlock Text="{Binding Name}" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding Quantity}" Margin="10,10,5,0"/>
+                            <TextBlock Text="{Binding Unit}" Margin="0,10,10,0"/>
+                            <TextBlock Text="{Binding Name}" Margin="0,10,0,0"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -60,25 +80,28 @@
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right" 
                     Margin="0,10,10,0" >
-            <TextBlock x:Name="directionsTitle"
-                       Text="DIRECTIONS"
+            <TextBlock x:Name="instructionsTitle"
+                       Text="INSTRUCTIONS"
                        FontStyle="Italic"
                        FontWeight="Bold"
                        FontSize="30"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Center"
                        Foreground="LightSeaGreen"/>
-            <ListBox x:Name="directionsListBox"
+            <ListBox x:Name="instructionsListBox"
                      Width="490"
                      Height="630"
+                     FontSize="15"
                      HorizontalAlignment="Center"
                      VerticalAlignment="Top"
                      Background="FloralWhite"
                      BorderBrush="LightSeaGreen"
-                     BorderThickness="2">
+                     BorderThickness="2"
+                     ItemsSource="{Binding CurrentRecipe.Instructions}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" 
+                        <TextBlock Text="{Binding InstructionDescription}"
+                                   Margin="10,10,0,0"
                                    TextWrapping="Wrap"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

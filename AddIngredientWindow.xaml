@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Cookbook" Height="400" Width="700"
         WindowStartupLocation="CenterScreen"
-        Background="LightBlue">
+        Background="LightBlue"
+        ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>

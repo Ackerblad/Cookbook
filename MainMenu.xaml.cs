@@ -16,8 +16,6 @@ namespace Cookbook
     /// </summary>
     public partial class MainMenu : Window
     {
-        SurpriseMeWindow surpriseMeWindow = new SurpriseMeWindow();
-        MyFridgeWindow myFridgeWindow = new MyFridgeWindow();
         IngredientsWindow ingredientsWindow = new IngredientsWindow();
         RecipesWindow recipesWindow = new RecipesWindow();
         
@@ -30,20 +28,6 @@ namespace Cookbook
         private void Window_Closed(Object sender, EventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void SurpriseMeButton_Click(object sender, RoutedEventArgs e)
-        {
-            surpriseMeWindow.MainMenu = this;
-            surpriseMeWindow.Show();
-            this.Hide();
-        }
-
-        private void MyFridgeButton_Click(object sender, RoutedEventArgs e)
-        {
-            myFridgeWindow.MainMenu = this;
-            myFridgeWindow.Show();
-            this.Hide();
         }
 
         private void IngredientsButton_Click(object sender, RoutedEventArgs e)
