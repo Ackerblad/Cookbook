@@ -66,9 +66,9 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" Margin="10,10,0,0"/>
                             <TextBlock Text="{Binding Quantity}" Margin="10,10,5,0"/>
-                            <TextBlock Text="{Binding Unit}" Margin="0,10,10,0"/>
-                            <TextBlock Text="{Binding Name}" Margin="0,10,0,0"/>
+                            <TextBlock Text="{Binding Unit}" Margin="0,10,0,0"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

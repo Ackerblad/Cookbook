@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Cookbook
 {
@@ -49,6 +37,9 @@ namespace Cookbook
 
                 CurrentRecipe.RecipeTitle = recipeRow["recipe_title"].ToString();
 
+                List<Ingredient> ingredientsWithQuantity = new List<Ingredient>();
+                List<Ingredient> ingredientsWithoutQuantity = new List<Ingredient>();
+
                 foreach (DataRow row in ingredientsDetails.Rows)
                 {
                     string ingredientName = row["ingredient_name"].ToString();
@@ -62,8 +53,18 @@ namespace Cookbook
 
                     var ingredient = new Ingredient { Name = ingredientName, Quantity = quantity, Unit = unitName };
 
-                    CurrentRecipe.Ingredients.Add(ingredient);
+                    if (quantity.HasValue || !string.IsNullOrWhiteSpace(unitName))
+                    {
+                        ingredientsWithQuantity.Add(ingredient);
+                    }
+                    else
+                    {
+                        ingredientsWithoutQuantity.Add(ingredient);
+                    }
                 }
+
+                CurrentRecipe.Ingredients.AddRange(ingredientsWithQuantity);
+                CurrentRecipe.Ingredients.AddRange(ingredientsWithoutQuantity);
 
                 foreach (DataRow row in instructionsDetails.Rows)
                 {

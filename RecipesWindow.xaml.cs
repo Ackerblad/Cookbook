@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Cookbook
 {
@@ -71,9 +60,9 @@ namespace Cookbook
         //Display all recipe categories from database
         private void GetCategories()
         {
-            List<string> categories = databaseConnection.GetCategories();
+            Dictionary<int, string> categories = databaseConnection.GetCategories();
 
-            categoryBox.ItemsSource = categories;
+            categoryBox.ItemsSource = categories.Values.ToList();
         }
 
         //Search for matching recipes in database

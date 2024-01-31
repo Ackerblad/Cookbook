@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Cookbook
 {
@@ -59,7 +50,7 @@ namespace Cookbook
 
                 addRecipeTitle.Text = recipeRow["recipe_title"].ToString();
                 addRecipeTitle.IsReadOnly = true;
-                
+
                 foreach (DataRow row in ingredientsDetails.Rows)
                 {
                     string ingredientName = row["ingredient_name"].ToString();
@@ -94,15 +85,15 @@ namespace Cookbook
         //Display all recipe categories from database
         private void GetCategories()
         {
-            List<string> categories = databaseConnection.GetCategories();
+            Dictionary<int, string> categories = databaseConnection.GetCategories();
 
-            categoryBox.ItemsSource = categories;
+            categoryBox.ItemsSource = categories.Values.ToList();
         }
 
         //Display all units from database
         private void GetUnits()
         {
-            List<string> units = databaseConnection.GetUnits();
+            List<Unit> units = databaseConnection.GetUnits();
 
             unitBox.ItemsSource = units;
         }

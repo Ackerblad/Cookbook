@@ -335,7 +335,6 @@
                        HorizontalAlignment="Left" 
                        Height="30"
                        Width="180"
-                       Text="Choose Category"
                        HorizontalContentAlignment="Center"
                        VerticalContentAlignment="Center"
                        FontStyle="Italic"

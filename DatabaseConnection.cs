@@ -1,12 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.DirectoryServices;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Cookbook
 {
@@ -14,20 +7,10 @@ namespace Cookbook
     {
         string server = "localhost";
         string database = "cookbook_database"; 
-        string username = "";
-        string password = ""; 
+        string username = "cookbook_user";
+        string password = "cookbook_password"; 
 
         string connectionString = "";
-
-        public DatabaseConnection(string server, string database, string username, string password)
-        {
-            connectionString =
-                "SERVER=" + server + ";" +
-                "DATABASE=" + database + ";" +
-                "UID=" + username + ";" +
-                "PASSWORD=" + password + ";";
-            Console.WriteLine($"ConnectionString {connectionString}");
-        }
 
         public DatabaseConnection()
         {
@@ -36,11 +19,19 @@ namespace Cookbook
                 "DATABASE=" + database + ";" +
                 "UID=" + username + ";" +
                 "PASSWORD=" + password + ";";
-            Console.WriteLine($"ConnectionString {connectionString}");
         }
 
-        //Search for an ingredient in database
-        public List<string> SearchIngredient(string searchQuery)
+        public DatabaseConnection(string server, string database, string username, string password)
+        {
+            connectionString =
+                "SERVER=" + server + ";" +
+                "DATABASE=" + database + ";" +
+                "UID=" + username + ";" +
+                "PASSWORD=" + password + ";";
+        }                                                                                     
+
+        //Search for an ingredient in database                                                       
+        public List<string> SearchIngredient(string searchQuery)                                    
         {
             List<string> searchResults = new List<string>();
 
@@ -113,7 +104,7 @@ namespace Cookbook
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@ingredient_name_param", ingredientName);
 
-                        object result = command.ExecuteScalar();
+                        object result = command.ExecuteScalar();                                                 
                         int rowCount = Convert.ToInt32(result);
 
                         return rowCount > 0;
@@ -165,7 +156,7 @@ namespace Cookbook
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@ingredient_name_param", ingredientName);
 
-                        object result = command.ExecuteScalar();
+                        object result = command.ExecuteScalar();                                                     
                         int rowCount = Convert.ToInt32(result);
 
                         return rowCount > 0;
@@ -179,10 +170,10 @@ namespace Cookbook
             }
         }
 
-        //Display recipe categories from database
-        public List<string> GetCategories()
+        //Get recipe categories from database
+        public Dictionary<int, string> GetCategories()
         {
-            List<string> categories = new List<string>();
+            Dictionary<int, string> categories = new Dictionary<int, string>();
 
             try
             {
@@ -196,12 +187,15 @@ namespace Cookbook
                         {
                             if (reader.HasRows)
                             {
+                                int categoryIdIndex = reader.GetOrdinal("category_id");
                                 int categoryNameIndex = reader.GetOrdinal("category_name");
 
                                 while (reader.Read())
                                 {
+                                    int categoryId = reader.GetInt32(categoryIdIndex);
                                     string categoryName = reader.GetString(categoryNameIndex);
-                                    categories.Add(categoryName);
+
+                                    categories.Add(categoryId, categoryName);
                                 }
                             }
                         }
@@ -216,10 +210,10 @@ namespace Cookbook
             return categories;
         }
 
-        //Display units from database
-        public List<string> GetUnits()
+        //Get units from database
+        public List<Unit> GetUnits()
         {
-            List<string> units = new List<string>();
+            List<Unit> units = new List<Unit>();
 
             try
             {
@@ -233,12 +227,16 @@ namespace Cookbook
                         {
                             if (reader.HasRows)
                             {
+                                int unitIdIndex = reader.GetOrdinal("unit_id");
                                 int unitNameIndex = reader.GetOrdinal("unit_name");
 
                                 while (reader.Read())
                                 {
+                                    int unitId = reader.GetInt32(unitIdIndex);
                                     string unitName = reader.GetString(unitNameIndex);
-                                    units.Add(unitName);
+
+                                    Unit unit = new Unit(unitId, unitName);
+                                    units.Add(unit);
                                 }
                             }
                         }
@@ -254,7 +252,7 @@ namespace Cookbook
         }
 
         //Search for a recipe filtered by category in database
-        public List<string> SearchRecipe(string searchQuery, string categoryName)
+        public List<string> SearchRecipe(string searchQuery, string categoryName)                               
         {
             List<string> searchResults = new List<string>();
 
@@ -293,7 +291,7 @@ namespace Cookbook
         //Get ingredients from database for chosen recipe
         public DataTable GetRecipeIngredients(string recipeTitle)
         {
-            DataTable dataTable = new DataTable();
+            DataTable dataTable = new DataTable();                                                
 
             try
             {
@@ -320,7 +318,7 @@ namespace Cookbook
         }
 
         //Get instructions from database for chosen recipe
-        public DataTable GetRecipeInstructions(string recipeTitle)
+        public DataTable GetRecipeInstructions(string recipeTitle)                                          
         {
             DataTable dataTable = new DataTable();
 
@@ -363,9 +361,8 @@ namespace Cookbook
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@category_name_param", categoryName);
 
-                        var result = command.ExecuteScalar();
-
-                        return Convert.ToInt32(result);
+                        int categoryId = (int)command.ExecuteScalar();
+                        return categoryId;
                     }
                 }
             }
@@ -390,9 +387,8 @@ namespace Cookbook
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@ingredient_name_param", ingredientName);
 
-                        var result = command.ExecuteScalar();
-
-                        return Convert.ToInt32(result);
+                        int ingredientId = (int)command.ExecuteScalar();
+                        return ingredientId;
                     }
                 }
             }  
@@ -417,7 +413,7 @@ namespace Cookbook
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@recipe_title_param", recipeTitle);
 
-                        object result = command.ExecuteScalar();
+                        object result = command.ExecuteScalar();                                                            
                         int rowCount = Convert.ToInt32(result);
 
                         return rowCount > 0;
@@ -446,9 +442,9 @@ namespace Cookbook
                         command.Parameters.AddWithValue("@recipe_title_param", recipeTitle);
                         command.Parameters.AddWithValue("@category_id_param", categoryId);
 
-                        var result = command.ExecuteScalar();
+                        int result = Convert.ToInt32(command.ExecuteScalar());
 
-                        return Convert.ToInt32(result);
+                        return result;                                              
                     }
                 }
             }
@@ -459,7 +455,7 @@ namespace Cookbook
             }          
         }
 
-        //Insert the instructions from users recipe
+        //Insert the instructions from user recipe
         public void InsertInstruction(int recipeId, string instructionDescription)
         {
             try
@@ -559,7 +555,7 @@ namespace Cookbook
             }
         }
 
-        //Match chosen recipe with and return recipe id
+        //Match chosen recipe and return recipe id
         public int GetRecipeId(string recipeTitle)
         {
             try
@@ -573,9 +569,8 @@ namespace Cookbook
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@recipe_title_param", recipeTitle);
 
-                        var result = command.ExecuteScalar();
-
-                        return Convert.ToInt32(result);
+                        int recipeId = Convert.ToInt32(command.ExecuteScalar());
+                        return recipeId;
                     }
                 }
             }
@@ -625,8 +620,8 @@ namespace Cookbook
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@recipe_title_param", recipeTitle);
-                        
-                        command.ExecuteScalar();
+
+                        command.ExecuteNonQuery();
                     }
                 }
             }
