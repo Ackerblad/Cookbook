@@ -361,8 +361,8 @@ namespace Cookbook
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@category_name_param", categoryName);
 
-                        int categoryId = (int)command.ExecuteScalar();
-                        return categoryId;
+                        var categoryId = command.ExecuteScalar();
+                        return Convert.ToInt32(categoryId);
                     }
                 }
             }
