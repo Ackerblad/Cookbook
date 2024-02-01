@@ -1,0 +1,144 @@
+﻿<Window x:Class="Cookbook.IngredientsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cookbook"
+        mc:Ignorable="d"
+        Title="Cookbook" Height="400" Width="700"
+        WindowStartupLocation="CenterScreen"
+        Background="LightBlue"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="120"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   x:Name="ingredientsTextBlock"
+                   Text="Ingredients"
+                   FontStyle="Italic"
+                   FontWeight="Bold"
+                   FontSize="50"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Center"
+                   Foreground="FloralWhite"
+                   Margin="0,10,0,0"/>
+
+        <Button Grid.Row="0" 
+                x:Name="BackButton" 
+                Click="BackButton_Click"
+                Width="44" 
+                Height="34"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="5,5,0,0"
+                Background="LightBlue"
+                BorderBrush="LightBlue">
+            <Path Data="M10,0 L0,10 L10,20 L10,14 L16,14 L16,6 L10,6 Z" 
+                  Width="34"
+                  Height="24"
+                  Fill="LightSeaGreen"
+                  Stretch="Fill"/>
+        </Button>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="0,10,0,0">
+            <TextBox x:Name="searchBox"
+                     KeyUp="searchBox_KeyUp"
+                     GotFocus="searchBox_GotFocus"
+                     LostFocus="searchBox_LostFocus"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Height="30"
+                     Width="200"
+                     Margin="0,0,0,5"
+                     Text="Search for ingredient"
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     FontStyle="Italic"
+                     FontSize="13"
+                     FontWeight="DemiBold"
+                     Foreground="LightSlateGray"
+                     TextWrapping="Wrap"
+                     Background="FloralWhite"
+                     BorderBrush="LightSeaGreen"
+                     BorderThickness="2"/>
+            <ListBox x:Name="resultListBox"
+                     MouseDoubleClick="resultListBox_MouseDoubleClick"
+                     Visibility="Collapsed"
+                     Height="150"
+                     Width="200"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Background="FloralWhite"
+                     BorderBrush="LightSeaGreen"
+                     BorderThickness="2"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,0,70">
+            <Button x:Name= "AddIngredientButton"
+                    Click="AddIngredientButton_Click"
+                    VerticalAlignment="Bottom"   
+                    HorizontalAlignment="Left"
+                    Margin="0,0,250,0"
+                    FontSize="11"
+                    FontWeight="Bold">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border x:Name="addIngredientBorder"
+                                Height="40"
+                                Width="110"
+                                CornerRadius="15"
+                                Background="FloralWhite"
+                                BorderBrush="LightSeaGreen"
+                                BorderThickness="2">
+                            <ContentPresenter Content="ADD INGREDIENT"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Foreground>
+                    <SolidColorBrush Color="LightSeaGreen">
+                    </SolidColorBrush>
+                </Button.Foreground>
+            </Button>
+            <Button x:Name= "DeleteIngredientButton"
+                    Click="DeleteIngredientButton_Click"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"  
+                    FontSize="11"
+                    FontWeight="Bold">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border x:Name="deleteIngredientBorder"
+                                Height="40"
+                                Width="110"
+                                CornerRadius="15"
+                                Background="FloralWhite"
+                                BorderBrush="LightSeaGreen"
+                                BorderThickness="2">
+                            <ContentPresenter Content="DELETE"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Foreground>
+                    <SolidColorBrush Color="LightSeaGreen">
+                    </SolidColorBrush>
+                </Button.Foreground>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>
